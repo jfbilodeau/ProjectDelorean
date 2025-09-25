@@ -26,17 +26,17 @@ jobs:
       - name: Publish
         # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: dotnet publish ProjectDelorean.sln --configuration Release --output publish --no-build
-      - name: Zip Published Artifacts
-        run: |
-          cd publish
-          zip -r ../ProjectDelorean.zip *
+    #   - name: Zip Published Artifacts
+    #     run: |
+    #       cd publish
+    #       zip -r ../ProjectDelorean.zip *
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ProjectDelorean.zip
-          path: ProjectDelorean.zip
+          path: publish/*
 
-  deploy:
+  deploy-infrastructure:
       runs-on: ubuntu-latest
       steps:
       - name: Checkout code
@@ -47,3 +47,17 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Deploy Bicep template
         run: az deployment group create --resource-group ProjectDelorean --template-file ./iac/deploy.bicep
+
+  deploy-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ProjectDelorean.zip
+      - name: Login
+        uses: azure/login@v2.3.0
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Deploy to Azure Web App
+        run: az webapp deploy --resource-group ProjectDelorean --name projectdelorean --src-path publish --type zip
