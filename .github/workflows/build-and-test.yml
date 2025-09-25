@@ -50,6 +50,9 @@ jobs:
 
   deploy-website:
     runs-on: ubuntu-latest
+    needs: 
+      - build-and-test
+      - deploy-infrastructure
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
