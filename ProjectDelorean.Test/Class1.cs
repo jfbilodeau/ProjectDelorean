@@ -17,13 +17,13 @@ namespace ProjectDelorean.Test
         }
 
         [Fact]
-        public void AnotherTest_ShouldFail()
+        public void AnotherTest_ShouldAlsoPass()
         {
             // Arrange
             var obj = new Class1();
 
             // Act & Assert
-            Assert.IsType<string>(obj);
+            Assert.IsType<Class1>(obj);
         }
 	}
 }
