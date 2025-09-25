@@ -22,3 +22,15 @@ jobs:
         run: dotnet build ProjectDelorean.sln --configuration Release --no-restore
       - name: Test
         run: dotnet test
+      - name: Publish
+        # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: dotnet publish .\ProjectDelorean\ -o ./publish
+      - name: Zip Published Artifacts
+        run: |
+          cd publish
+          zip -r ../ProjectDelorean.zip *
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ProjectDelorean
+          path: ProjectDelorean.zip
