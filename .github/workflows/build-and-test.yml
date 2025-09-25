@@ -63,4 +63,4 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Deploy to Azure Web App
-        run: az webapp deploy --resource-group ProjectDelorean --name projectdelorean --src-path publish --type zip
+        run: az webapp deploy --resource-group ProjectDelorean --name projectdelorean --src-path ProjectDelorean --type zip
