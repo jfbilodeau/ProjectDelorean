@@ -21,4 +21,4 @@ jobs:
       - name: Build
         run: dotnet build ProjectDelorean.sln --configuration Release --no-restore
       - name: Test
-        run: dotnet test ProjectDelorean.sln --no-build --verbosity normal
+        run: dotnet test
