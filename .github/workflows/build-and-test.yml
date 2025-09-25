@@ -35,6 +35,10 @@ jobs:
         with:
           name: ProjectDelorean.zip
           path: ProjectDelorean.zip
+
+  deploy:
+      runs-on: ubuntu-latest
+      steps:
       - name: Login
         uses: azure/login@v2.3.0
         with:
