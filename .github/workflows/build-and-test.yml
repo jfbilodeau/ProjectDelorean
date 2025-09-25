@@ -34,5 +34,9 @@ jobs:
         with:
           name: ProjectDelorean.zip
           path: ProjectDelorean.zip
+      - name: Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Deploy Bicep template
         run: az deployment group create --resource-group ProjectDelorean --template-file ./iac/deploy.bicep
