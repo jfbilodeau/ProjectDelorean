@@ -26,15 +26,15 @@ jobs:
       - name: Publish
         # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: dotnet publish ProjectDelorean.sln --configuration Release --output publish --no-build
-    #   - name: Zip Published Artifacts
-    #     run: |
-    #       cd publish
-    #       zip -r ../ProjectDelorean.zip *
+      - name: Zip Published Artifacts
+        run: |
+          cd publish
+          zip -r ../ProjectDelorean.zip *
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ProjectDelorean.zip
-          path: publish/*
+          path: ProjectDelorean.zip
 
   deploy-infrastructure:
       runs-on: ubuntu-latest
@@ -63,4 +63,4 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Deploy to Azure Web App
-        run: az webapp deploy --resource-group ProjectDelorean --name projectdelorean --src-path publish --type zip
+        run: az webapp deploy --resource-group ProjectDelorean --name projectdelorean --src-path ProjectDelorean.zip --type zip
